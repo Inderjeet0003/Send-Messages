@@ -1,3 +1,4 @@
+
 package com.example.sendmessages;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.Manifest.*;
@@ -19,6 +21,7 @@ import static android.Manifest.*;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     EditText txt_pNumber,txt_message;
+    TextView txt_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         txt_message=(EditText)findViewById(R.id.txt_message);
         txt_pNumber=(EditText)findViewById(R.id.txt_phone_number);
+        txt_view=findViewById(R.id.textView2);
         findViewById(R.id.send).setOnClickListener(this);
     }
 
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             int permissionCheck = ContextCompat.checkSelfPermission(this, permission.SEND_SMS);
             if(permissionCheck== PackageManager.PERMISSION_GRANTED){
-             MyMessage();
+                MyMessage();
                 Log.e("permission granted","true");
             }
             else{
@@ -51,17 +55,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void MyMessage() {
         String phoneNumber = txt_pNumber.getText().toString().trim();
         String Message = txt_message.getText().toString().trim();
-         int digit=txt_pNumber.length();
-         if(digit>10){
-             Toast.makeText(this,"Enter a proper number",Toast.LENGTH_SHORT).show();
-         }
+        int digit=txt_pNumber.length();
+        if(digit>10){
+            Toast.makeText(this,"Enter a proper number",Toast.LENGTH_SHORT).show();
+        }
         else if(!txt_pNumber.getText().toString().equals("") && !txt_message.getText().toString().equals("")){
-        SmsManager smsManager=SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNumber,null,Message,null,null);
+            SmsManager smsManager=SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber,null,Message,null,null);
 
-             Log.e("msg send","true");
-        Toast.makeText(this,"Message Sent",Toast.LENGTH_SHORT).show();
-    }
+            Log.e("msg send","true");
+            Toast.makeText(this,"Message Sent",Toast.LENGTH_SHORT).show();
+        }
         else{
             Toast.makeText(this,"MUST enter phone number and Message",Toast.LENGTH_SHORT).show();
         }
@@ -118,4 +122,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
-
